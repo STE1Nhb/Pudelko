@@ -9,7 +9,5 @@ namespace Pudelko.Enums
         milimeter,
         meterSquare,
         meterCube,
-        centimeterCube,
-        milimeterCube
     }
 }

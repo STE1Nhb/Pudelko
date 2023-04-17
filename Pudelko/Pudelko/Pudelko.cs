@@ -45,7 +45,8 @@ namespace Pudelko
             Height = 10;
             Unit = UnitOfMeasure.centimeter;
             Square = Math.Round(2 * Height * Width + 2 * Width * Length + 2 * Height * Length, 6);
-            Volume = Math.Round(Length * Width * Height, 9);
+            Volume = Volume = Math.Round(UnitConvertor(Length, Unit, UnitOfMeasure.meter) * UnitConvertor(Width, Unit, UnitOfMeasure.meter)
+                    * UnitConvertor(Height, Unit, UnitOfMeasure.meter), 9);
         }
         private static decimal UnitConvertor(decimal value, UnitOfMeasure unit, UnitOfMeasure toUnit)
         {
@@ -60,6 +61,10 @@ namespace Pudelko
             else if(toUnit == UnitOfMeasure.milimeter && toUnit != unit)
             {
                 value = unit == UnitOfMeasure.centimeter ? value * 10 : value * 1000;
+            }
+            else if(toUnit == UnitOfMeasure.meterSquare && toUnit != UnitOfMeasure.meter)
+            {
+                value = unit == UnitOfMeasure.centimeter ? value / 10000 : value / 1000000;
             }
             else if(toUnit == UnitOfMeasure.meterCube && unit != UnitOfMeasure.meter)
             {
@@ -115,8 +120,6 @@ namespace Pudelko
             {
                 return left.Volume == right.Volume;
             }
-            
-            return false;
         }
         public static bool operator !=(Pudelko left, Pudelko right) => !(left == right);
         public override int GetHashCode()
