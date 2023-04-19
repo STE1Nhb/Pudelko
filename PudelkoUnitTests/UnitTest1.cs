@@ -7,6 +7,7 @@ namespace PudelkoUnitTests
         [TestMethod]
         public void TestMethod1()
         {
+            
         }
     }
 }
