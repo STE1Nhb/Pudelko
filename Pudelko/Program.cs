@@ -2,7 +2,8 @@
 using System.Text.Encodings;
 using System.IO;
 using System.Text;
-using Pudelko.Utility;
+using U = Utility;
+using System.Globalization;
 
 namespace Pudelko
 {
@@ -11,20 +12,22 @@ namespace Pudelko
         static void Main(string[] args)
         {
             Console.OutputEncoding = Encoding.UTF8;
+            CultureInfo current = CultureInfo.CurrentCulture;
+            CultureInfo newCulture; 
+            if (current.Name != "en-US")
+                newCulture = new CultureInfo("en-US");
+            else
+                newCulture = new CultureInfo("en-US");
+            CultureInfo.CurrentCulture = newCulture;
 
-            string s = "2 m × 9 m × 1 m";
-            double b = 0.2011;
-            decimal v = Convert.ToDecimal(Math.Round(b, 3));   
-            Pudelko? x = Pudelko.Parse(s);
-            Pudelko? y = new Pudelko(145.22m,14.79m, 60, UnitOfMeasure.centimeter);
-            var z = x + y;
             ValueTuple<int, int, int> o = (3, 2, 2);
+            string j = "4.0 m × 10.0 m × 5.5 m";
+            Pudelko x = Pudelko.Parse(j);
+            Console.WriteLine("{0:cM}", x);
+            Console.WriteLine(x.Volume);
 
-            Console.WriteLine(Pudelko.UnitConvertor(Math.Round(2*(decimal)(2.50) * (decimal)(2.50) + (decimal)(2.50)*(decimal)(2.50)*2+(decimal)(2.50)*(decimal)(2.50)*2, 9), UnitOfMeasure.meter, UnitOfMeasure.meterCube));
+            Console.WriteLine(U.Utility.Compress(x));
 
-            Console.WriteLine(Pudelko.UnitConvertor(Math.Round(y.Length*y.Width*y.Height,9), y.Unit, UnitOfMeasure.meterCube));
-            Console.WriteLine(y.Square);
-            
         }
     }
 }

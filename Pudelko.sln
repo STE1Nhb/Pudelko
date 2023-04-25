@@ -5,7 +5,7 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pudelko", "Pudelko\Pudelko.csproj", "{FC21DA88-82F4-4209-8E67-264BE4AA696C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PudelkoUnitTests", "PudelkoUnitTests\PudelkoUnitTests.csproj", "{89B876D8-0D27-4BFE-9EE2-DC3B43D0D33E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PudelkoUnitTests", "PudelkoUnitTests\PudelkoUnitTests.csproj", "{89B876D8-0D27-4BFE-9EE2-DC3B43D0D33E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

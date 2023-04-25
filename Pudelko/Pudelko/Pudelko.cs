@@ -7,7 +7,6 @@ using System.Globalization;
 using System.ComponentModel;
 using System.Collections.Generic;
 
-
     namespace Pudelko
     {
         public sealed class Pudelko : IEquatable<Pudelko>, IEnumerable<decimal>, IFormattable
@@ -37,10 +36,10 @@ using System.Collections.Generic;
                     Width = width;
                     Height = height;
                     Unit = unit;
-                    Square = UnitConvertor(Math.Round(2 * ((Height * Width) + (Width * Length) + (Height * Length)), 6), Unit, UnitOfMeasure.meterSquare);
+                    Square = UnitConvertor(Math.Round(2 * ((Height * Width) + (Width * Length) + (Height * Length)), 2), Unit, UnitOfMeasure.meterSquare);
                     Volume = UnitConvertor(Math.Round(Length * Width * Height, 9), Unit, UnitOfMeasure.meterCube);
 
-;                   Parameters.Add(Length);
+                    Parameters.Add(Length);
                     Parameters.Add(Width);
                     Parameters.Add(Height);
                 }
@@ -51,7 +50,7 @@ using System.Collections.Generic;
                 Width = 10;
                 Height = 10;
                 Unit = UnitOfMeasure.centimeter;
-                Square = UnitConvertor(Math.Round(2 * ((Height * Width) +   (Width * Length) +   (Height * Length)), 6), Unit, UnitOfMeasure.meterSquare);
+                Square = UnitConvertor(Math.Round(2 * ((Height * Width) +   (Width * Length) +   (Height * Length)), 2), Unit, UnitOfMeasure.meterSquare);
                 Volume = UnitConvertor(Math.Round(Length * Width * Length, 9), Unit, UnitOfMeasure.meterCube);
             }
 
@@ -138,7 +137,7 @@ using System.Collections.Generic;
             }
             public string ToString(string format, IFormatProvider provider)
             {
-                if (string.IsNullOrEmpty(format))
+                if (string.IsNullOrEmpty(format!))
                     format = "G";
                 if (provider == null)
                     provider = CultureInfo.CurrentCulture;
@@ -157,7 +156,7 @@ using System.Collections.Generic;
                     case "MM":
                         return UnitConvertor(Length, Unit, UnitOfMeasure.milimeter).ToString("F0", provider) + " «milimeter»" +
                        " \u00D7 " + UnitConvertor(Width, Unit, UnitOfMeasure.milimeter).ToString("F0", provider) + " «milimeter»" +
-                       " \u00D7 " + UnitConvertor(Height, Unit, UnitOfMeasure.milimeter).ToString("F", provider) + " «milimeter»";
+                       " \u00D7 " + UnitConvertor(Height, Unit, UnitOfMeasure.milimeter).ToString("F0", provider) + " «milimeter»";
                     default:
                         throw new FormatException();
                 }
@@ -196,43 +195,89 @@ using System.Collections.Generic;
             }
             public static Pudelko Parse(string s)
             {
+                int j = 0;
+
                 if (s is null || s.Length == 0)
                     throw new ArgumentNullException();
-                else if (s.Contains('m'))
-                {
-                    string[] parametersStr = RemoveExtraChars(s, 'm', '×', ' ');
+            else if (s.Where(x => "cm".IndexOf(x) != -1).Count() == 6 )
+            {
+                string[] parametersStr = RemoveExtraChars(s, 'c', 'm', '×', ' ');
 
-                    decimal[] parameters = new decimal[parametersStr.Length];
-                    foreach (int i in parameters)
-                    {
-                        parameters[i] = Math.Round(Convert.ToDecimal(parametersStr[i]), 3);
-                    }
-                    return new Pudelko(parameters[0], parameters[1], parameters[2], UnitOfMeasure.meter);
-                }
-                else if (s.Contains("mm"))
+                foreach (string element in parametersStr)
                 {
-                    string[] parametersStr = RemoveExtraChars(s, 'm', '×', ' ');
+                    if(!element.Contains('.'))
+                        throw new FormatException("Pudelko parameters wasn't in a right format!");
 
-                    decimal[] parameters = new decimal[parametersStr.Length];
-                    foreach (int i in parameters)
-                    {
-                        parameters[i] = Math.Round(Convert.ToDecimal(parametersStr[i]), 0);
-                    }
-                    return new Pudelko(parameters[0], parameters[1], parameters[2], UnitOfMeasure.milimeter);
+                    j = element.IndexOf('.');
+
+                    if (Convert.ToDecimal(element) > 1000)
+                        throw new FormatException("Pudelko parameters wasn't in a right format!");
+                    else if (j == 1 && element.Length > 3)
+                        throw new FormatException("Pudelko parameters wasn't in a right format!");
+                    else if (j == 2 && element.Length > 4)
+                        throw new FormatException("Pudelko parameters wasn't in a right format!");
+                    else if (j == 3 && element.Length > 5)
+                        throw new FormatException("Pudelko parameters wasn't in a right format!");
+                    else if (j == 4 && element.Length > 5)
+                        throw new FormatException("Pudelko parameters wasn't in a right format!");
+                    else if (j == 5 && element.Length > 6)
+                        throw new FormatException("Pudelko parameters wasn't in a right format!");
                 }
-                else if (s.Contains("cm"))
+
+                decimal[] parameter = new decimal[parametersStr.Length];
+                for(int i = 0; i < parameter.Length; i++)
                 {
-                    string[] parametersStr = RemoveExtraChars(s, 'c', 'm', '×', ' ');
-
-                    decimal[] parameters = new decimal[parametersStr.Length];
-                    foreach (int i in parameters)
-                    {
-                        parameters[i] = Math.Round(Convert.ToDecimal(parametersStr[i]), 1);
-                    }
-                    return new Pudelko(parameters[0], parameters[1], parameters[2], UnitOfMeasure.centimeter);
+                    parameter[i] = Convert.ToDecimal(parametersStr[i]);
                 }
-                else
-                    throw new ArgumentException();
+                return new Pudelko(parameter[0], parameter[1], parameter[2], UnitOfMeasure.centimeter);
+            }
+            else if (s.Where(x => "mm".IndexOf(x) != -1).Count() == 6)
+            {
+                string[] parametersStr = RemoveExtraChars(s, 'm', '×', ' ');
+
+                foreach (string element in parametersStr)
+                {
+                    if (element.Contains('.') || Convert.ToDecimal(element) > 10000)
+                        throw new FormatException("Pudelko parameters wasn't in a right format!");
+                }
+
+                decimal[] parameter = new decimal[parametersStr.Length];
+                for(int i = 0; i < parameter.Length; i++)
+                {
+                    parameter[i] = Convert.ToDecimal(parametersStr[i]);
+                }
+                return new Pudelko(parameter[0], parameter[1], parameter[2], UnitOfMeasure.milimeter);
+            }
+            else if (s.Where(x => "m".IndexOf(x) != -1).Count() == 3)
+            {
+
+                string[] parametersStr = RemoveExtraChars(s, 'm', '×', ' ');
+
+                foreach (string element in parametersStr)
+                {
+                    if (!element.Contains('.'))
+                        throw new FormatException("Pudelko parameters wasn't in a right format!");
+
+                    j = element.IndexOf('.');
+                    
+                    if (Convert.ToDecimal(element) > 10)
+                        throw new FormatException("Pudelko parameters wasn't in a right format!");
+                    else if (j == 1 && element.Length > 5)
+                        throw new FormatException("Pudelko parameters wasn't in a right format!");
+                    else if (j == 2 && element.Length > 6)
+                        throw new FormatException("Pudelko parameters wasn't in a right format!");
+                }
+
+                decimal[] parameter = new decimal[parametersStr.Length];
+                for(int i = 0; i < parameter.Length; i++)
+                {
+                    parameter[i] = Convert.ToDecimal(parametersStr[i]);
+                }
+
+                return new Pudelko(parameter[0], parameter[1], parameter[2], UnitOfMeasure.meter);
+            }
+            else
+                throw new ArgumentException();
             }
             public static bool TryParse(string s, out Pudelko pudelko)
             {
