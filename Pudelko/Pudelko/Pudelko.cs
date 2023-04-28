@@ -55,6 +55,7 @@ using System.Collections.Generic;
             }
 
             // UnitConvertor
+            // Converts different units to each other
             public static decimal UnitConvertor(decimal value, UnitOfMeasure unit, UnitOfMeasure toUnit)
             {
                 if (toUnit == UnitOfMeasure.meter && toUnit != unit)
@@ -135,11 +136,11 @@ using System.Collections.Generic;
             {
                 return ToString(format, CultureInfo.CurrentCulture);
             }
-            public string ToString(string format, IFormatProvider provider)
+            public string ToString(string? format, IFormatProvider? provider)
             {
-                if (string.IsNullOrEmpty(format!))
+                if (string.IsNullOrEmpty(format))
                     format = "G";
-                if (provider == null)
+                if (provider is null)
                     provider = CultureInfo.CurrentCulture;
 
                 switch (format.ToUpperInvariant())
@@ -201,7 +202,7 @@ using System.Collections.Generic;
                     throw new ArgumentNullException();
             else if (s.Where(x => "cm".IndexOf(x) != -1).Count() == 6 )
             {
-                string[] parametersStr = RemoveExtraChars(s, 'c', 'm', '×', ' ');
+                string[] parametersStr = RemoveExtraChars(s, 'c', 'm', '\u00D7', ' ');
 
                 foreach (string element in parametersStr)
                 {
@@ -233,7 +234,7 @@ using System.Collections.Generic;
             }
             else if (s.Where(x => "mm".IndexOf(x) != -1).Count() == 6)
             {
-                string[] parametersStr = RemoveExtraChars(s, 'm', '×', ' ');
+                string[] parametersStr = RemoveExtraChars(s, 'm', '\u00D7', ' ');
 
                 foreach (string element in parametersStr)
                 {
@@ -251,7 +252,7 @@ using System.Collections.Generic;
             else if (s.Where(x => "m".IndexOf(x) != -1).Count() == 3)
             {
 
-                string[] parametersStr = RemoveExtraChars(s, 'm', '×', ' ');
+                string[] parametersStr = RemoveExtraChars(s, 'm', '\u00D7', ' ');
 
                 foreach (string element in parametersStr)
                 {

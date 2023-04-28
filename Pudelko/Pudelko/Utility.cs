@@ -13,7 +13,7 @@ namespace Utility
         {
             decimal size = (decimal)Math.Pow((double)pudelko.Volume, 1.0 / 3.0);
 
-            return new P.Pudelko(size, size, size, pudelko.Unit);
+            return new P.Pudelko(size, size, size, P.Enums.UnitOfMeasure.meter);
         }
     }
 }
