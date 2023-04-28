@@ -55,13 +55,24 @@ namespace Pudelko
                 Console.Write("{0} ", item);
             }
             // Parse and TryParse
-            Console.WriteLine($"\nParse:\n{pMeter == Pudelko.Parse("5.000 m \u00D7 5.000 m \u00D7 5.000 m")}");
+            Console.WriteLine($"\n\nParse:\n{pMeter == Pudelko.Parse("5.000 m \u00D7 5.000 m \u00D7 5.000 m")}");
             Console.WriteLine($"TryParse:\n{Pudelko.TryParse("30.0 cm \u00D7 21.0 cm \u00D7 100.0 cm", out Pudelko pOut)}");
             // Extension Method - Compress
             var pToCompress = new Pudelko(250, 50m, 50m, UnitOfMeasure.centimeter);
             Console.WriteLine("\nCompress Pudelko:");
-            Console.WriteLine("Not Compressed Pudelko - {0:CM} (Volume = {1} m\u00B3)", pToCompress, pToCompress.Volume);
-            Console.WriteLine("Compressed Pudelko - {0:CM} (Volume = {1} m\u00B3)", pToCompress.Compress(), pToCompress.Compress().Volume);
+            Console.WriteLine("Not Compressed Pudelko -> {0:CM} (Volume = {1} m\u00B3)", pToCompress, pToCompress.Volume);
+            Console.WriteLine("Compressed Pudelko -> {0:CM} (Volume = {1} m\u00B3)", pToCompress.Compress(), pToCompress.Compress().Volume);
+            // Sort
+            var pList = new List<Pudelko>() { pMeter, pCenti, pOut, pNoParams, p2 };
+
+            Console.WriteLine("\nSort:\n\nUnsorted list:");
+            Console.WriteLine(string.Join(" ->\n", pList));
+            pList.Sort(new Comparison<Pudelko>(Pudelko.ComparePudelko));
+            Console.WriteLine("\nSorted list:");
+            Console.WriteLine(string.Join(" ->\n", pList));
+
+            Pudelko x = new Pudelko(2.0019m);
+            Console.WriteLine(x);
         }
     }
 }
