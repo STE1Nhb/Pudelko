@@ -38,7 +38,7 @@ namespace Pudelko
             Console.WriteLine("\nImplicit/Explicit operators:");
             Console.WriteLine($"Explicit conversion(Pudelko -> double[]):");
             Console.Write(string.Join(", ", doubleArray));
-            var intTuple = new ValueTuple<int, int, int>(1,2,3);
+            var intTuple = new ValueTuple<int, int, int>(10,20,30);
             Pudelko p2 = intTuple;
             Console.WriteLine("\nImplicit conversion(ValueTuple<int, int, int -> Pudelko>):\n{0:MM}", p2);
             // Pudelko addition
@@ -47,9 +47,9 @@ namespace Pudelko
             Console.WriteLine("First Pudelko - {0:M}\nSecond Pudelko - {1:CM}", pMeter, pCenti);
             Console.WriteLine("Addition result:\n{0:M}", addResult);
             // Indexer
-            Console.WriteLine("Indexer:\nLenght: {0}, Width: {1}, Height: {2}", pMeter['l'], pMeter['w'], pMeter['H']);
+            Console.WriteLine("Indexer:\nLenght: {0}, Width: {1}, Height: {2}", pMeter[0], pMeter[1], pMeter[2]);
             // Foreach
-            Console.WriteLine("Foreach cycle:");
+            Console.WriteLine("\nForeach cycle:");
             foreach(var item in pMeter)
             {
                 Console.Write("{0} ", item);
@@ -70,9 +70,6 @@ namespace Pudelko
             pList.Sort(new Comparison<Pudelko>(Pudelko.ComparePudelko));
             Console.WriteLine("\nSorted list:");
             Console.WriteLine(string.Join(" ->\n", pList));
-
-            Pudelko x = new Pudelko(2.0019m);
-            Console.WriteLine(x);
         }
     }
 }

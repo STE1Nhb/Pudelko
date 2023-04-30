@@ -52,16 +52,8 @@ namespace Pudelko
                 Parameters.Add(Height);
             }
         }
-        
-        public Pudelko()
-        {
-            Length = 10;
-            Width = 10;
-            Height = 10;
-            Unit = UnitOfMeasure.centimeter;
-            Square = UnitConvertor(Math.Round(2 * ((Height * Width) +   (Width * Length) +   (Height * Length)), 2), Unit, UnitOfMeasure.meterSquare);
-            Volume = UnitConvertor(Math.Round(Length * Width * Length, 9), Unit, UnitOfMeasure.meterCube);
-        }
+
+       
 
         // Extra methods
         // UnitConvertor
